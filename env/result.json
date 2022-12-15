@@ -1,0 +1,621 @@
+[0m# module.lambda_business.aws_cloudwatch_log_group.log_group["cccc"]:
+resource "aws_cloudwatch_log_group" "log_group" {
+    [1m[0marn[0m[0m               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/cccc-lambda"
+    [1m[0mid[0m[0m                = "/aws/lambda/cccc-lambda"
+    [1m[0mname[0m[0m              = "/aws/lambda/cccc-lambda"
+    [1m[0mretention_in_days[0m[0m = 14
+    [1m[0mskip_destroy[0m[0m      = false
+    [1m[0mtags[0m[0m              = {}
+    [1m[0mtags_all[0m[0m          = {}
+}
+
+# module.lambda_business.aws_cloudwatch_log_group.log_group["aaaa"]:
+resource "aws_cloudwatch_log_group" "log_group" {
+    [1m[0marn[0m[0m               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/aaaa-lambda"
+    [1m[0mid[0m[0m                = "/aws/lambda/aaaa-lambda"
+    [1m[0mname[0m[0m              = "/aws/lambda/aaaa-lambda"
+    [1m[0mretention_in_days[0m[0m = 14
+    [1m[0mskip_destroy[0m[0m      = false
+    [1m[0mtags[0m[0m              = {}
+    [1m[0mtags_all[0m[0m          = {}
+}
+
+# module.lambda_business.aws_cloudwatch_log_group.log_group["bbbb"]:
+resource "aws_cloudwatch_log_group" "log_group" {
+    [1m[0marn[0m[0m               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/bbbb-lambda"
+    [1m[0mid[0m[0m                = "/aws/lambda/bbbb-lambda"
+    [1m[0mname[0m[0m              = "/aws/lambda/bbbb-lambda"
+    [1m[0mretention_in_days[0m[0m = 14
+    [1m[0mskip_destroy[0m[0m      = false
+    [1m[0mtags[0m[0m              = {}
+    [1m[0mtags_all[0m[0m          = {}
+}
+
+# module.lambda_business.aws_iam_policy.lambda_logging:
+resource "aws_iam_policy" "lambda_logging" {
+    [1m[0marn[0m[0m         = "arn:aws:iam::166353092227:policy/lambda_logging"
+    [1m[0mdescription[0m[0m = "IAM policy for logging from a lambda"
+    [1m[0mid[0m[0m          = "arn:aws:iam::166353092227:policy/lambda_logging"
+    [1m[0mname[0m[0m        = "lambda_logging"
+    [1m[0mpath[0m[0m        = "/"
+    [1m[0mpolicy[0m[0m      = jsonencode(
+        {
+            Statement = [
+                {
+                    Action   = [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents",
+                    ]
+                    Effect   = "Allow"
+                    Resource = "arn:aws:logs:*:*:*"
+                },
+            ]
+            Version   = "2012-10-17"
+        }
+    )
+    [1m[0mpolicy_id[0m[0m   = "ANPASNO3KX2BRSEPKQNBC"
+    [1m[0mtags[0m[0m        = {}
+    [1m[0mtags_all[0m[0m    = {}
+}
+
+# module.lambda_business.aws_iam_role.iam_for_lambda:
+resource "aws_iam_role" "iam_for_lambda" {
+    [1m[0marn[0m[0m                   = "arn:aws:iam::166353092227:role/iam_for_lambda"
+    [1m[0massume_role_policy[0m[0m    = jsonencode(
+        {
+            Statement = [
+                {
+                    Action    = "sts:AssumeRole"
+                    Effect    = "Allow"
+                    Principal = {
+                        Service = "lambda.amazonaws.com"
+                    }
+                    Sid       = ""
+                },
+            ]
+            Version   = "2012-10-17"
+        }
+    )
+    [1m[0mcreate_date[0m[0m           = "2022-12-15T06:52:35Z"
+    [1m[0mforce_detach_policies[0m[0m = false
+    [1m[0mid[0m[0m                    = "iam_for_lambda"
+    [1m[0mmanaged_policy_arns[0m[0m   = [
+        "arn:aws:iam::166353092227:policy/lambda_logging",
+    ]
+    [1m[0mmax_session_duration[0m[0m  = 3600
+    [1m[0mname[0m[0m                  = "iam_for_lambda"
+    [1m[0mpath[0m[0m                  = "/"
+    [1m[0mtags[0m[0m                  = {}
+    [1m[0mtags_all[0m[0m              = {}
+    [1m[0munique_id[0m[0m             = "AROASNO3KX2B3TLUOSMDJ"
+}
+
+# module.lambda_business.aws_iam_role_policy_attachment.lambda_logs:
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+    [1m[0mid[0m[0m         = "iam_for_lambda-20221215065237303100000001"
+    [1m[0mpolicy_arn[0m[0m = "arn:aws:iam::166353092227:policy/lambda_logging"
+    [1m[0mrole[0m[0m       = "iam_for_lambda"
+}
+
+# module.lambda_business.aws_lambda_function.lambdas["aaaa"]:
+resource "aws_lambda_function" "lambdas" {
+    [1m[0marchitectures[0m[0m                  = [
+        "x86_64",
+    ]
+    [1m[0marn[0m[0m                            = "arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda"
+    [1m[0mfunction_name[0m[0m                  = "aaaa-lambda"
+    [1m[0mid[0m[0m                             = "aaaa-lambda"
+    [1m[0mimage_uri[0m[0m                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa:latest"
+    [1m[0minvoke_arn[0m[0m                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda/invocations"
+    [1m[0mlast_modified[0m[0m                  = "2022-12-15T06:52:48.942+0000"
+    [1m[0mlayers[0m[0m                         = []
+    [1m[0mmemory_size[0m[0m                    = 128
+    [1m[0mpackage_type[0m[0m                   = "Image"
+    [1m[0mpublish[0m[0m                        = false
+    [1m[0mqualified_arn[0m[0m                  = "arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda:$LATEST"
+    [1m[0mqualified_invoke_arn[0m[0m           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda:$LATEST/invocations"
+    [1m[0mreserved_concurrent_executions[0m[0m = -1
+    [1m[0mrole[0m[0m                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+    [1m[0msource_code_hash[0m[0m               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+    [1m[0msource_code_size[0m[0m               = 0
+    [1m[0mtags[0m[0m                           = {}
+    [1m[0mtags_all[0m[0m                       = {}
+    [1m[0mtimeout[0m[0m                        = 3
+    [1m[0mversion[0m[0m                        = "$LATEST"
+
+    ephemeral_storage {
+        [1m[0msize[0m[0m = 512
+    }
+
+    tracing_config {
+        [1m[0mmode[0m[0m = "PassThrough"
+    }
+}
+
+# module.lambda_business.aws_lambda_function.lambdas["bbbb"]:
+resource "aws_lambda_function" "lambdas" {
+    [1m[0marchitectures[0m[0m                  = [
+        "x86_64",
+    ]
+    [1m[0marn[0m[0m                            = "arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda"
+    [1m[0mfunction_name[0m[0m                  = "bbbb-lambda"
+    [1m[0mid[0m[0m                             = "bbbb-lambda"
+    [1m[0mimage_uri[0m[0m                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb:latest"
+    [1m[0minvoke_arn[0m[0m                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda/invocations"
+    [1m[0mlast_modified[0m[0m                  = "2022-12-15T06:52:49.030+0000"
+    [1m[0mlayers[0m[0m                         = []
+    [1m[0mmemory_size[0m[0m                    = 128
+    [1m[0mpackage_type[0m[0m                   = "Image"
+    [1m[0mpublish[0m[0m                        = false
+    [1m[0mqualified_arn[0m[0m                  = "arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda:$LATEST"
+    [1m[0mqualified_invoke_arn[0m[0m           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda:$LATEST/invocations"
+    [1m[0mreserved_concurrent_executions[0m[0m = -1
+    [1m[0mrole[0m[0m                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+    [1m[0msource_code_hash[0m[0m               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+    [1m[0msource_code_size[0m[0m               = 0
+    [1m[0mtags[0m[0m                           = {}
+    [1m[0mtags_all[0m[0m                       = {}
+    [1m[0mtimeout[0m[0m                        = 3
+    [1m[0mversion[0m[0m                        = "$LATEST"
+
+    ephemeral_storage {
+        [1m[0msize[0m[0m = 512
+    }
+
+    tracing_config {
+        [1m[0mmode[0m[0m = "PassThrough"
+    }
+}
+
+# module.lambda_business.aws_lambda_function.lambdas["cccc"]:
+resource "aws_lambda_function" "lambdas" {
+    [1m[0marchitectures[0m[0m                  = [
+        "x86_64",
+    ]
+    [1m[0marn[0m[0m                            = "arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda"
+    [1m[0mfunction_name[0m[0m                  = "cccc-lambda"
+    [1m[0mid[0m[0m                             = "cccc-lambda"
+    [1m[0mimage_uri[0m[0m                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc:latest"
+    [1m[0minvoke_arn[0m[0m                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda/invocations"
+    [1m[0mlast_modified[0m[0m                  = "2022-12-15T06:52:48.915+0000"
+    [1m[0mlayers[0m[0m                         = []
+    [1m[0mmemory_size[0m[0m                    = 128
+    [1m[0mpackage_type[0m[0m                   = "Image"
+    [1m[0mpublish[0m[0m                        = false
+    [1m[0mqualified_arn[0m[0m                  = "arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda:$LATEST"
+    [1m[0mqualified_invoke_arn[0m[0m           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda:$LATEST/invocations"
+    [1m[0mreserved_concurrent_executions[0m[0m = -1
+    [1m[0mrole[0m[0m                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+    [1m[0msource_code_hash[0m[0m               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+    [1m[0msource_code_size[0m[0m               = 0
+    [1m[0mtags[0m[0m                           = {}
+    [1m[0mtags_all[0m[0m                       = {}
+    [1m[0mtimeout[0m[0m                        = 3
+    [1m[0mversion[0m[0m                        = "$LATEST"
+
+    ephemeral_storage {
+        [1m[0msize[0m[0m = 512
+    }
+
+    tracing_config {
+        [1m[0mmode[0m[0m = "PassThrough"
+    }
+}
+
+# module.lambda_business.data.aws_ecr_repository.ecr_infos["aaaa"]:
+data "aws_ecr_repository" "ecr_infos" {
+    [1m[0marn[0m[0m                          = "arn:aws:ecr:us-east-1:166353092227:repository/aaaa"
+    [1m[0mencryption_configuration[0m[0m     = [
+        {
+            encryption_type = "AES256"
+            kms_key         = ""
+        },
+    ]
+    [1m[0mid[0m[0m                           = "aaaa"
+    [1m[0mimage_scanning_configuration[0m[0m = [
+        {
+            scan_on_push = false
+        },
+    ]
+    [1m[0mimage_tag_mutability[0m[0m         = "MUTABLE"
+    [1m[0mname[0m[0m                         = "aaaa"
+    [1m[0mregistry_id[0m[0m                  = "166353092227"
+    [1m[0mrepository_url[0m[0m               = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa"
+    [1m[0mtags[0m[0m                         = {}
+}
+
+# module.lambda_business.data.aws_ecr_repository.ecr_infos["bbbb"]:
+data "aws_ecr_repository" "ecr_infos" {
+    [1m[0marn[0m[0m                          = "arn:aws:ecr:us-east-1:166353092227:repository/bbbb"
+    [1m[0mencryption_configuration[0m[0m     = [
+        {
+            encryption_type = "AES256"
+            kms_key         = ""
+        },
+    ]
+    [1m[0mid[0m[0m                           = "bbbb"
+    [1m[0mimage_scanning_configuration[0m[0m = [
+        {
+            scan_on_push = false
+        },
+    ]
+    [1m[0mimage_tag_mutability[0m[0m         = "MUTABLE"
+    [1m[0mname[0m[0m                         = "bbbb"
+    [1m[0mregistry_id[0m[0m                  = "166353092227"
+    [1m[0mrepository_url[0m[0m               = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb"
+    [1m[0mtags[0m[0m                         = {}
+}
+
+# module.lambda_business.data.aws_ecr_repository.ecr_infos["cccc"]:
+data "aws_ecr_repository" "ecr_infos" {
+    [1m[0marn[0m[0m                          = "arn:aws:ecr:us-east-1:166353092227:repository/cccc"
+    [1m[0mencryption_configuration[0m[0m     = [
+        {
+            encryption_type = "AES256"
+            kms_key         = ""
+        },
+    ]
+    [1m[0mid[0m[0m                           = "cccc"
+    [1m[0mimage_scanning_configuration[0m[0m = [
+        {
+            scan_on_push = false
+        },
+    ]
+    [1m[0mimage_tag_mutability[0m[0m         = "MUTABLE"
+    [1m[0mname[0m[0m                         = "cccc"
+    [1m[0mregistry_id[0m[0m                  = "166353092227"
+    [1m[0mrepository_url[0m[0m               = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc"
+    [1m[0mtags[0m[0m                         = {}
+}
+
+
+
+# module.ecr.aws_ecr_repository.ecr_repos["aaaa"]:
+resource "aws_ecr_repository" "ecr_repos" {
+    [1m[0marn[0m[0m                  = "arn:aws:ecr:us-east-1:166353092227:repository/aaaa"
+    [1m[0mid[0m[0m                   = "aaaa"
+    [1m[0mimage_tag_mutability[0m[0m = "MUTABLE"
+    [1m[0mname[0m[0m                 = "aaaa"
+    [1m[0mregistry_id[0m[0m          = "166353092227"
+    [1m[0mrepository_url[0m[0m       = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa"
+    [1m[0mtags[0m[0m                 = {}
+    [1m[0mtags_all[0m[0m             = {}
+
+    encryption_configuration {
+        [1m[0mencryption_type[0m[0m = "AES256"
+    }
+
+    image_scanning_configuration {
+        [1m[0mscan_on_push[0m[0m = false
+    }
+}
+
+# module.ecr.aws_ecr_repository.ecr_repos["bbbb"]:
+resource "aws_ecr_repository" "ecr_repos" {
+    [1m[0marn[0m[0m                  = "arn:aws:ecr:us-east-1:166353092227:repository/bbbb"
+    [1m[0mid[0m[0m                   = "bbbb"
+    [1m[0mimage_tag_mutability[0m[0m = "MUTABLE"
+    [1m[0mname[0m[0m                 = "bbbb"
+    [1m[0mregistry_id[0m[0m          = "166353092227"
+    [1m[0mrepository_url[0m[0m       = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb"
+    [1m[0mtags[0m[0m                 = {}
+    [1m[0mtags_all[0m[0m             = {}
+
+    encryption_configuration {
+        [1m[0mencryption_type[0m[0m = "AES256"
+    }
+
+    image_scanning_configuration {
+        [1m[0mscan_on_push[0m[0m = false
+    }
+}
+
+# module.ecr.aws_ecr_repository.ecr_repos["cccc"]:
+resource "aws_ecr_repository" "ecr_repos" {
+    [1m[0marn[0m[0m                  = "arn:aws:ecr:us-east-1:166353092227:repository/cccc"
+    [1m[0mid[0m[0m                   = "cccc"
+    [1m[0mimage_tag_mutability[0m[0m = "MUTABLE"
+    [1m[0mname[0m[0m                 = "cccc"
+    [1m[0mregistry_id[0m[0m          = "166353092227"
+    [1m[0mrepository_url[0m[0m       = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc"
+    [1m[0mtags[0m[0m                 = {}
+    [1m[0mtags_all[0m[0m             = {}
+
+    encryption_configuration {
+        [1m[0mencryption_type[0m[0m = "AES256"
+    }
+
+    image_scanning_configuration {
+        [1m[0mscan_on_push[0m[0m = false
+    }
+}
+
+
+# module.ecr_processor.aws_ecr_repository.ecr_repos["postprocessor"]:
+resource "aws_ecr_repository" "ecr_repos" {
+    [1m[0marn[0m[0m                  = "arn:aws:ecr:us-east-1:166353092227:repository/postprocessor"
+    [1m[0mid[0m[0m                   = "postprocessor"
+    [1m[0mimage_tag_mutability[0m[0m = "MUTABLE"
+    [1m[0mname[0m[0m                 = "postprocessor"
+    [1m[0mregistry_id[0m[0m          = "166353092227"
+    [1m[0mrepository_url[0m[0m       = "166353092227.dkr.ecr.us-east-1.amazonaws.com/postprocessor"
+    [1m[0mtags_all[0m[0m             = {}
+
+    encryption_configuration {
+        [1m[0mencryption_type[0m[0m = "AES256"
+    }
+
+    image_scanning_configuration {
+        [1m[0mscan_on_push[0m[0m = false
+    }
+}
+
+# module.ecr_processor.aws_ecr_repository.ecr_repos["preprocessor"]:
+resource "aws_ecr_repository" "ecr_repos" {
+    [1m[0marn[0m[0m                  = "arn:aws:ecr:us-east-1:166353092227:repository/preprocessor"
+    [1m[0mid[0m[0m                   = "preprocessor"
+    [1m[0mimage_tag_mutability[0m[0m = "MUTABLE"
+    [1m[0mname[0m[0m                 = "preprocessor"
+    [1m[0mregistry_id[0m[0m          = "166353092227"
+    [1m[0mrepository_url[0m[0m       = "166353092227.dkr.ecr.us-east-1.amazonaws.com/preprocessor"
+    [1m[0mtags_all[0m[0m             = {}
+
+    encryption_configuration {
+        [1m[0mencryption_type[0m[0m = "AES256"
+    }
+
+    image_scanning_configuration {
+        [1m[0mscan_on_push[0m[0m = false
+    }
+}
+
+
+Outputs:
+
+ecr_infos = [
+    {
+        aaaa = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa"
+    },
+    {
+        bbbb = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb"
+    },
+    {
+        cccc = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc"
+    },
+]
+ecr_repos_arns = [
+    {
+        postprocessor = "arn:aws:ecr:us-east-1:166353092227:repository/postprocessor"
+    },
+    {
+        preprocessor = "arn:aws:ecr:us-east-1:166353092227:repository/preprocessor"
+    },
+]
+ecr_repos_registrys = [
+    {
+        postprocessor = "166353092227"
+    },
+    {
+        preprocessor = "166353092227"
+    },
+]
+ecr_repos_urls = [
+    {
+        postprocessor = "166353092227.dkr.ecr.us-east-1.amazonaws.com/postprocessor"
+    },
+    {
+        preprocessor = "166353092227.dkr.ecr.us-east-1.amazonaws.com/preprocessor"
+    },
+]
+lambda_info = [
+    {
+        aaaa-lambda = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa:latest"
+    },
+    {
+        bbbb-lambda = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb:latest"
+    },
+    {
+        cccc-lambda = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc:latest"
+    },
+]
+logs = [
+    {
+        aaaa = {
+            arn               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/aaaa-lambda"
+            id                = "/aws/lambda/aaaa-lambda"
+            kms_key_id        = ""
+            name              = "/aws/lambda/aaaa-lambda"
+            name_prefix       = ""
+            retention_in_days = 14
+            skip_destroy      = false
+            tags              = {}
+            tags_all          = {}
+        }
+        bbbb = {
+            arn               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/bbbb-lambda"
+            id                = "/aws/lambda/bbbb-lambda"
+            kms_key_id        = ""
+            name              = "/aws/lambda/bbbb-lambda"
+            name_prefix       = ""
+            retention_in_days = 14
+            skip_destroy      = false
+            tags              = {}
+            tags_all          = {}
+        }
+        cccc = {
+            arn               = "arn:aws:logs:us-east-1:166353092227:log-group:/aws/lambda/cccc-lambda"
+            id                = "/aws/lambda/cccc-lambda"
+            kms_key_id        = ""
+            name              = "/aws/lambda/cccc-lambda"
+            name_prefix       = ""
+            retention_in_days = 14
+            skip_destroy      = false
+            tags              = {}
+            tags_all          = {}
+        }
+    },
+]
+uuu = [
+    {
+        aaaa = {
+            architectures                  = [
+                "x86_64",
+            ]
+            arn                            = "arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda"
+            code_signing_config_arn        = ""
+            dead_letter_config             = []
+            description                    = ""
+            environment                    = []
+            ephemeral_storage              = [
+                {
+                    size = 512
+                },
+            ]
+            file_system_config             = []
+            filename                       = [90mnull[0m[0m
+            function_name                  = "aaaa-lambda"
+            handler                        = ""
+            id                             = "aaaa-lambda"
+            image_config                   = []
+            image_uri                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa:latest"
+            invoke_arn                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda/invocations"
+            kms_key_arn                    = ""
+            last_modified                  = "2022-12-15T06:52:48.942+0000"
+            layers                         = []
+            memory_size                    = 128
+            package_type                   = "Image"
+            publish                        = false
+            qualified_arn                  = "arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda:$LATEST"
+            qualified_invoke_arn           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:aaaa-lambda:$LATEST/invocations"
+            reserved_concurrent_executions = -1
+            role                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+            runtime                        = ""
+            s3_bucket                      = [90mnull[0m[0m
+            s3_key                         = [90mnull[0m[0m
+            s3_object_version              = [90mnull[0m[0m
+            signing_job_arn                = ""
+            signing_profile_version_arn    = ""
+            snap_start                     = []
+            source_code_hash               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+            source_code_size               = 0
+            tags                           = {}
+            tags_all                       = {}
+            timeout                        = 3
+            timeouts                       = [90mnull[0m[0m
+            tracing_config                 = [
+                {
+                    mode = "PassThrough"
+                },
+            ]
+            version                        = "$LATEST"
+            vpc_config                     = []
+        }
+        bbbb = {
+            architectures                  = [
+                "x86_64",
+            ]
+            arn                            = "arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda"
+            code_signing_config_arn        = ""
+            dead_letter_config             = []
+            description                    = ""
+            environment                    = []
+            ephemeral_storage              = [
+                {
+                    size = 512
+                },
+            ]
+            file_system_config             = []
+            filename                       = [90mnull[0m[0m
+            function_name                  = "bbbb-lambda"
+            handler                        = ""
+            id                             = "bbbb-lambda"
+            image_config                   = []
+            image_uri                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/bbbb:latest"
+            invoke_arn                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda/invocations"
+            kms_key_arn                    = ""
+            last_modified                  = "2022-12-15T06:52:49.030+0000"
+            layers                         = []
+            memory_size                    = 128
+            package_type                   = "Image"
+            publish                        = false
+            qualified_arn                  = "arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda:$LATEST"
+            qualified_invoke_arn           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:bbbb-lambda:$LATEST/invocations"
+            reserved_concurrent_executions = -1
+            role                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+            runtime                        = ""
+            s3_bucket                      = [90mnull[0m[0m
+            s3_key                         = [90mnull[0m[0m
+            s3_object_version              = [90mnull[0m[0m
+            signing_job_arn                = ""
+            signing_profile_version_arn    = ""
+            snap_start                     = []
+            source_code_hash               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+            source_code_size               = 0
+            tags                           = {}
+            tags_all                       = {}
+            timeout                        = 3
+            timeouts                       = [90mnull[0m[0m
+            tracing_config                 = [
+                {
+                    mode = "PassThrough"
+                },
+            ]
+            version                        = "$LATEST"
+            vpc_config                     = []
+        }
+        cccc = {
+            architectures                  = [
+                "x86_64",
+            ]
+            arn                            = "arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda"
+            code_signing_config_arn        = ""
+            dead_letter_config             = []
+            description                    = ""
+            environment                    = []
+            ephemeral_storage              = [
+                {
+                    size = 512
+                },
+            ]
+            file_system_config             = []
+            filename                       = [90mnull[0m[0m
+            function_name                  = "cccc-lambda"
+            handler                        = ""
+            id                             = "cccc-lambda"
+            image_config                   = []
+            image_uri                      = "166353092227.dkr.ecr.us-east-1.amazonaws.com/cccc:latest"
+            invoke_arn                     = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda/invocations"
+            kms_key_arn                    = ""
+            last_modified                  = "2022-12-15T06:52:48.915+0000"
+            layers                         = []
+            memory_size                    = 128
+            package_type                   = "Image"
+            publish                        = false
+            qualified_arn                  = "arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda:$LATEST"
+            qualified_invoke_arn           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:166353092227:function:cccc-lambda:$LATEST/invocations"
+            reserved_concurrent_executions = -1
+            role                           = "arn:aws:iam::166353092227:role/iam_for_lambda"
+            runtime                        = ""
+            s3_bucket                      = [90mnull[0m[0m
+            s3_key                         = [90mnull[0m[0m
+            s3_object_version              = [90mnull[0m[0m
+            signing_job_arn                = ""
+            signing_profile_version_arn    = ""
+            snap_start                     = []
+            source_code_hash               = "f7ec9fdb23571fea413cba7f96a85ccb1b93977b734f079cf6f057e22a0a89fd"
+            source_code_size               = 0
+            tags                           = {}
+            tags_all                       = {}
+            timeout                        = 3
+            timeouts                       = [90mnull[0m[0m
+            tracing_config                 = [
+                {
+                    mode = "PassThrough"
+                },
+            ]
+            version                        = "$LATEST"
+            vpc_config                     = []
+        }
+    },
+][0m[0m
