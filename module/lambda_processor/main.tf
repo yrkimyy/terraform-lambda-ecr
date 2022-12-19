@@ -56,15 +56,17 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 }
 
 
-data "aws_ecr_repository" "ecr_infos" {
-    for_each = toset(var.ecr_repos_names_processor)
-    name = each.key
+data "aws_ecr_repository" "ecr_infos_pre" {
+    name = "preprocessor"
 }
 
+data "aws_ecr_repository" "ecr_infos_post" {
+    name = "postprocessor"
+}
 
 resource "aws_lambda_function" "lambda_preprocessor" {
     function_name = "preprocessor"
-    image_uri =  "${data.aws_ecr_repository.ecr_infos["preprocessor"].repository_url}:latest"
+    image_uri =  "${data.aws_ecr_repository.ecr_infos_pre.repository_url}:latest"
     architectures = ["x86_64"]
     package_type = "Image"
 
@@ -77,7 +79,7 @@ resource "aws_lambda_function" "lambda_preprocessor" {
 
 resource "aws_lambda_function" "lambda_postprocessor" {
     function_name = "postprocessor"
-    image_uri =  "${data.aws_ecr_repository.ecr_infos["postprocessor"].repository_url}:latest"
+    image_uri =  "${data.aws_ecr_repository.ecr_infos_post.repository_url}:latest"
     architectures = ["x86_64"]
     package_type = "Image"
 

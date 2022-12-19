@@ -63,7 +63,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 
 
 data "aws_ecr_repository" "ecr_infos" {
-    for_each = toset(var.ecr_repos_names_business)
+    for_each = toset(var.ecr_repos_names)
     name = each.key
 }
 

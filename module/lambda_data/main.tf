@@ -52,8 +52,8 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 }
 
 
-data "aws_ecr_repository" "ecr_infos" {
-    for_each = toset(var.ecr_repos_names)
+data "aws_ecr_repository" "data_ecr_infos" {
+    for_each = toset(var.ecr_data_repos_names)
     name = each.key
 }
 
@@ -66,7 +66,7 @@ resource "aws_lambda_function" "lambdas" {
   //ecr_urls의 for문을 돌려서, name과 function_name을 비교한다. 
   //비교해서 같으면, ecr_urls[name]의 값을 image_url로 사용한다. 
 
-    image_uri = "${lookup(data.aws_ecr_repository.ecr_infos, each.key, "No Match").repository_url}:latest"
+    image_uri = "${lookup(data.aws_ecr_repository.data_ecr_infos, each.key, "No Match").repository_url}:latest"
 
     # image_uri = "166353092227.dkr.ecr.us-east-1.amazonaws.com/aaaa:latest"
     architectures = ["x86_64"]

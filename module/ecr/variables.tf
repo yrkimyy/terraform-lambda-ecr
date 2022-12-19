@@ -1,3 +1,1 @@
-variable "ecr_repos_names" {
-  
-}
+variable "ecr_repos_names" {}
